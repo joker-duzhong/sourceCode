@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
+
+<script>
+  let data = { name: 'with hope' };
+  let obj = new Proxy(data, {
+    get(target, key) {
+      console.log('触发 get');
+      return target[key];
+    },
+    set(target, key, val) {
+      console.log('触发 set');
+      target[key] = val;
+      render();
+    }
+  })
+  function render() {
+    document.querySelector('#app').innerHTML = obj.name;
+  }
+  render();
+  setTimeout(() => {
+    obj.name = 'change data'
+  }, 1000);
+
+  // let obj = reactive({
+  //   name: 'with hope',
+  // })
+  // effect(() => {
+  //   document.querySelector('#app').innerHTML = obj.name;
+  // })
+  // obj.name = 'change after'
+
+  // let obj = {
+  //   name: "with hope",
+  // }
+
+  // function render() {
+  //   document.querySelector('#app').innerHTML = obj.name;
+  // }
+  // render();
+
+</script>
+
+</html>
